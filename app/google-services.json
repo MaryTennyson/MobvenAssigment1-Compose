@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634184545712",
+    "project_id": "mobvenhomework1",
+    "storage_bucket": "mobvenhomework1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634184545712:android:29b60f82ad07189936d275",
+        "android_client_info": {
+          "package_name": "com.ebraratabay.mobvenhomework1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm-g0y2xn21RCozB6gK3_dEKoYLF_aSY8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
