@@ -1,8 +1,6 @@
-package com.ebraratabay.mobvenhomework1
+package com.ebraratabay.mobvenhomework1.views
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
@@ -34,11 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ebraratabay.mobvenhomework1.models.User
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
 
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -48,6 +45,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+private val viewModel = MainViewModel()
 
 @Composable
 fun MainActiviyScreen() {
@@ -63,7 +61,7 @@ fun MainActiviyScreen() {
     ) {
         textField()
         UserList(usersList.value)
-        Button(onClick = { refreshData { usersList.value = it } }) {
+        Button(onClick = { viewModel.refreshData { usersList.value = it } }) {
             Text(text = "Refresh Data")
         }
 
@@ -115,7 +113,7 @@ fun textField() {
 
         Button(onClick = {
             var user = User(filledName, filledSurname, filledPhoneNumber)
-            sendToDB(user)
+            viewModel.sendToDB(user)
         }) {
             Text(text = "Save")
         }
@@ -124,36 +122,6 @@ fun textField() {
 
 }
 
-val db = Firebase.firestore
-fun sendToDB(user: User) {
-    db.collection("Users").add(user)
-        .addOnSuccessListener { documentReference ->
-            Log.d("SuccesFirebase", "DocumentSnapshot added with ID: ${documentReference.id}")
-        }
-        .addOnFailureListener { e ->
-            Log.w("FailFirebase", "Error adding document", e)
-        }
-
-}
-
-fun refreshData(updateList: (ArrayList<User>) -> Unit) {
-    var usersList = ArrayList<User>()
-    db.collection("Users").get().addOnSuccessListener { result ->
-        for (user in result) {
-            val username = user["name"].toString()
-            val usersurname = user["surname"].toString()
-            val phonenumber = user["phoneNumber"].toString()
-            val user = User(username, usersurname, phonenumber)
-            println(user.name)
-            println(user.surname)
-            usersList.add(user)
-        }
-        updateList(usersList)
-    }
-        .addOnFailureListener { exception ->
-            Log.d(TAG, "Error getting documents: ", exception)
-        }
-}
 
 @Composable
 fun UserList(usersList: ArrayList<User>) {
